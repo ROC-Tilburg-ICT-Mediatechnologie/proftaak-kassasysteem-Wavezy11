@@ -2,14 +2,14 @@
 # Kassasysteem
 Proftaak-project waar je in je eentje aan werkt om je coding skills te oefenen.
 
->Leerdoelen
+ public methods 
+  * maakt objecten van classes>Leerdoelen
 * Je maakt gebruik van composer.json
 * Je maakt gebruik van een namespace.
 * Je maakt gebruik van OOP technieken:
   * classes met properties en methods
   * private properties 
-  * private, protected of public methods 
-  * maakt objecten van classes
+  * private, protected of
   
 ## Inhoud project
 Je gaat een kassasysteem maken voor een cafe/restaurant.
