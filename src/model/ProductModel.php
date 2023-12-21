@@ -19,6 +19,7 @@ class ProductModel extends Model
     {
         return $this->getAll();
     }
+   
 
     public function getProduct($idProduct): array
     {
@@ -29,4 +30,17 @@ class ProductModel extends Model
             'prijs'     => (int)$product->getColumnValue('prijs')
         ];
     }
+    public function getAllProducts(): array
+    {
+        $products = [];
+        foreach ($this->getAll() as $product) {
+            $products[] = [
+                'idproduct' => (int)$product->getColumnValue('idproduct'),
+                'naam'      => $product->getColumnValue('naam'),
+                'prijs'     => (int)$product->getColumnValue('prijs')
+            ];
+        }
+        return $products;
+    }
+    
 }

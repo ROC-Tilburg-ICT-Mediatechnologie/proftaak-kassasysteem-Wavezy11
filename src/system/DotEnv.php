@@ -17,6 +17,7 @@ class DotEnv
 
     public function __construct(string $path)
     {
+        $this->path = $path;
         if ( ! file_exists($path)) {
             throw new InvalidArgumentException(
                 sprintf('%s does not exist', $path)

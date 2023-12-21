@@ -6,12 +6,17 @@ require "../vendor/autoload.php";
 
 $idTafel = $_GET['idtafel'] ?? null;
 if ($idTafel) {
+    // TODO: bestelling ophalen en tonen op een mooie manier door gebruik te maken van Rekening.php
+    // $rekening = new Rekening($idTafel);
 
-    //TODO: bestelling ophalen en tonen op een mooie manier door gebruik te maken van Rekening.php
-    $rekening = new Rekening($idTafel);
-
-
-    //TODO: bestelling op betaald zetten
+    // if ($rekening) {
+    //     // TODO: bestelling op betaald zetten
+    //     $rekening->setPaid($idTafel);
+    // } else {
+    //     echo "Fout ligt bij 1";
+    // }
+    // $naam = getColumnValue['naam'];
+    
 
 } else {
     http_response_code(404);

@@ -29,7 +29,9 @@ Er is al basiscode waarin gebruik is gemaakt van het MVC-framework CodeIgniter (
 ## Werkwijze
 * Bestudeer het database-ontwerp:
   - Welke tabellen zijn er?
+    product producttafel en tafel
   - Wat zijn de relaties tussen de tabellen?
+  
   - Wat is de inhoud van de tabellen?
 * Bestudeer het activiteitendiagram:
   * Wat gebeurt wanneer? 

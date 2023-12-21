@@ -13,10 +13,17 @@ class Rekening
     public function setPaid($idTafel): void
     {
         //TODO: de rekening voor een bepaalde tafel op betaald zetten
+    
+    $rekening = new Rekening($idTafel);
+    if ($rekening === true) {
+        echo "Rekening is betaald";
     }
+    
+    }
+    ///setpaid functie gebruiken
 
     /**
-     * @param $idTafel
+     * @param $idtafel
      *
      * @return array
      */
@@ -39,8 +46,7 @@ class Rekening
         if (isset($bestelling['products'])) {
             foreach ($bestelling['products'] as $idProduct) {
                 if(!isset($bill['products'][$idProduct]['data'])) {
-                    $bill['products'][$idProduct]['data'] = (new ProductModel(
-                    ))->getProduct(
+                    $bill['products'][$idProduct]['data'] = (new ProductModel())->getProduct(
                         $idProduct
                     );
                 }
@@ -50,7 +56,7 @@ class Rekening
         }
 
         //TODO: 'totaal' toevoegen aan de rekening
-
+        
         return $bill;
     }
 

@@ -25,6 +25,20 @@ require "../vendor/autoload.php";
     // foreach ( ... ) {
     //      echo "<div><a href='keuze.php?idtafel={$idtafel}'>{$omschrijving}')}</div>";
     // }
+
+
+    //dit toegevoegd
+    
+    $tafelModel = new \Acme\model\TafelModel();
+    $tafels = $tafelModel->getAllTafels();
+   
+    foreach ($tafels as $tafel) {
+        $idTafel = $tafel['idtafel'];
+        $omschrijving = $tafel['omschrijving'];
+   
+        echo "<div><a href='keuze.php?idtafel={$idTafel}'>{$omschrijving}</a></div>";
+    }
+ 
 ?>
 </body>
 </html>
