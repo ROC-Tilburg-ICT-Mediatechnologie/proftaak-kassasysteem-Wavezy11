@@ -12,13 +12,10 @@ class Rekening
 
     public function setPaid($idTafel): void
     {
-        //TODO: de rekening voor een bepaalde tafel op betaald zetten
-    
-    $rekening = new Rekening($idTafel);
-    if ($rekening === true) {
+        // TODO: de rekening voor een bepaalde tafel op betaald zetten
+        $bm = new ProductTafelModel();
+        // $bm->getBill($idTafel);
         echo "Rekening is betaald";
-    }
-    
     }
     ///setpaid functie gebruiken
 
@@ -39,24 +36,23 @@ class Rekening
         $bill['datumtijd'] = [
             'timestamp' => $bestelling['datumtijd'],
             'formatted' => date(
-                'dd-mm-yyyy',
-                $bestelling['datumtijd']
-            )
+                'd-m-Y',
+                $bestelling['datumtijd'])
         ];
+
         if (isset($bestelling['products'])) {
             foreach ($bestelling['products'] as $idProduct) {
-                if(!isset($bill['products'][$idProduct]['data'])) {
-                    $bill['products'][$idProduct]['data'] = (new ProductModel())->getProduct(
-                        $idProduct
-                    );
+                if (!isset($bill['products'][$idProduct]['data'])) {
+                    $bill['products'][$idProduct]['data'] = (new ProductModel())->getProduct($idProduct);
                 }
                 if (!isset($bill['products'][$idProduct]['aantal'])) $bill['products'][$idProduct]['aantal'] = 0;
                 $bill['products'][$idProduct]['aantal']++;
             }
         }
 
-        //TODO: 'totaal' toevoegen aan de rekening
-        
+
+ 
+
         return $bill;
     }
 
