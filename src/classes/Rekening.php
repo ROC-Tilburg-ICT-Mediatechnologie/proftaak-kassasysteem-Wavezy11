@@ -21,39 +21,42 @@ class Rekening
 
     /**
      * @param $idtafel
-     *
-     * @return array
-     */
-    public function getBill($idTafel): array
-    {
-        $bill = [];
-        $bm = new ProductTafelModel();
-        $bestelling = $bm->getBestelling($idTafel);
+ *
+ * @return array
+ */
+public function getBill($idTafel): array
+{
+    $bill = [];
+    $bm = new ProductTafelModel();
+    $bestelling = $bm->getBestelling($idTafel);
 
-        $tm = new TafelModel();
+    $tm = new TafelModel();
 
-        $bill['tafel'] = $tm->getTafel($idTafel);
-        $bill['datumtijd'] = [
-            'timestamp' => $bestelling['datumtijd'],
-            'formatted' => date(
-                'd-m-Y',
-                $bestelling['datumtijd'])
-        ];
+    $bill['tafel'] = $tm->getTafel($idTafel);
+    $bill['datumtijd'] = [
+        'timestamp' => $bestelling['datumtijd'],
+        'formatted' => date(
+            'd-m-Y',
+            $bestelling['datumtijd'])
+    ];
 
-        if (isset($bestelling['products'])) {
-            foreach ($bestelling['products'] as $idProduct) {
-                if (!isset($bill['products'][$idProduct]['data'])) {
-                    $bill['products'][$idProduct]['data'] = (new ProductModel())->getProduct($idProduct);
-                }
-                if (!isset($bill['products'][$idProduct]['aantal'])) $bill['products'][$idProduct]['aantal'] = 0;
-                $bill['products'][$idProduct]['aantal']++;
+    if (isset($bestelling['products'])) {
+        foreach ($bestelling['products'] as $idProduct) {
+            if (!isset($bill['products'])) {
+                $bill['products'] = [];
             }
+
+            if (!isset($bill['products'][$idProduct]['data'])) {
+                $bill['products'][$idProduct]['data'] = (new ProductModel())->getProduct($idProduct);
+            }
+
+            if (!isset($bill['products'][$idProduct]['aantal'])) {
+                $bill['products'][$idProduct]['aantal'] = 0;
+            }
+
+            $bill['products'][$idProduct]['aantal']++;
         }
-
-
- 
-
-        return $bill;
     }
 
-}
+    return $bill;
+}}
