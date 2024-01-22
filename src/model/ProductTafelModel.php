@@ -1,51 +1,31 @@
 <?php
-
 namespace Acme\model;
 
 use Acme\system\Database;
 
 class ProductTafelModel extends Model
 {
-
     protected static string $tableName = "product_tafel";
     protected static string $primaryKey = "idproduct_tafel";
 
     public function __construct($env = '../.env')
     {
-        parent::__construct(Database::getInstance($env));
+        parent::__construct($env);
     }
 
     /**
-     *
-     * @param array $bestelling [
-     *                          'idtafel'  => int idTafel,
-     *                          "products" => array [idproduct, idproduct, ...],
-     *                          "datetime" => int dateTime
-     *                          ]
-     *
-     * @return int nieuwe id
+     * @param array $bestelling
+     * @return int
      */
-    public function saveBestelling(array $bestelling): int
+    public function saveBestelling($bestelling): int
     {
-        foreach ($bestelling['products'] as $idProduct) {
-            $this->setColumnValue('idtafel', $bestelling['idtafel']);
-            $this->setColumnValue('datumtijd', $bestelling['datetime']);
-            $this->setColumnValue('betaald', 0);
-            $this->setColumnValue('idproduct', $idProduct);
-            return $this->save();
-        }
-        return 0;
+        
+        return $result;
     }
 
     /**
      * @param $idTafel
-     *
-     * @return array    [
-     * 'idTafel'  => int idTafel,
-     * "products" => array [idproduct, idproduct, ...],
-     * "datumtijd" => int dateTime,
-     * "betaald" => int betaald
-     * ]
+     * @return array
      */
     public function getBestelling($idTafel): array
     {
@@ -55,11 +35,13 @@ class ProductTafelModel extends Model
         $bestelling['datumtijd'] = isset($products[0])
             ? (int)$products[0]->getColumnValue('datumtijd') : 0;
         $bestelling['betaald'] = 0;
+        $bestelling['products'] = []; // Initialize the products array
 
         foreach ($products as $product) {
             $idProduct = $product->getColumnValue('idproduct');
             $bestelling['products'][] = $idProduct;
         }
+
         return $bestelling;
     }
 }

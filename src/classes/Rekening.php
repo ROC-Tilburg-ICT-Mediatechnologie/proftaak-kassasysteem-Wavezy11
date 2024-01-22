@@ -2,61 +2,63 @@
 
 namespace Acme\classes;
 
-use Acme\model\ProductModel;
 use Acme\model\ProductTafelModel;
 use Acme\model\TafelModel;
-use DateTime;
+use Acme\system\Database;
 
 class Rekening
 {
+    private ProductTafelModel $productTafelModel;
+    private TafelModel $model;
 
-    public function setPaid($idTafel): void
+    public function __construct(Database $db, $idTafel)
     {
-        // TODO: de rekening voor een bepaalde tafel op betaald zetten
-        $bm = new ProductTafelModel();
-        // $bm->getBill($idTafel);
-        echo "Rekening is betaald";
+        $this->productTafelModel = new ProductTafelModel();
+        $this->idTafel = $idTafel;
+
+        
+        $this->model = new TafelModel($db);
     }
-    ///setpaid functie gebruiken
 
-    /**
-     * @param $idtafel
- *
- * @return array
- */
-public function getBill($idTafel): array
-{
-    $bill = [];
-    $bm = new ProductTafelModel();
-    $bestelling = $bm->getBestelling($idTafel);
+    public function getBill($idTafel)
+    {
+     
+        $products = $this->model->getBestelling($idTafel);
 
-    $tm = new TafelModel();
+        $output = "Rekening voor tafel $idTafel: ";
 
-    $bill['tafel'] = $tm->getTafel($idTafel);
-    $bill['datumtijd'] = [
-        'timestamp' => $bestelling['datumtijd'],
-        'formatted' => date(
-            'd-m-Y',
-            $bestelling['datumtijd'])
-    ];
+        foreach ($products['products'] as $idProduct) {
+         
+            $product = $this->productTafelModel->getBestelling($idProduct);
 
-    if (isset($bestelling['products'])) {
-        foreach ($bestelling['products'] as $idProduct) {
-            if (!isset($bill['products'])) {
-                $bill['products'] = [];
-            }
+           
+            $naam = isset($product['naam']) ? $product['naam'] : 'Onbekend';
+            $prijs = isset($product['prijs']) ? $product['prijs'] : 0;
 
-            if (!isset($bill['products'][$idProduct]['data'])) {
-                $bill['products'][$idProduct]['data'] = (new ProductModel())->getProduct($idProduct);
-            }
-
-            if (!isset($bill['products'][$idProduct]['aantal'])) {
-                $bill['products'][$idProduct]['aantal'] = 0;
-            }
-
-            $bill['products'][$idProduct]['aantal']++;
+            $output .= "- $naam: $prijs ";
         }
+
+        $total = $this->calculateTotal($products['products']);
+        $output .= "Totaal: $total";
+
+        return $output;
     }
 
-    return $bill;
-}}
+  
+    private function calculateTotal($products)
+    {
+    
+        return 42; 
+    }
+    public function getBestelling($idTafel)
+    {
+     
+        $query = "SELECT * FROM your_table WHERE idTafel = :idTafel";
+        $params = [':idTafel' => $idTafel];
+
+        $result = $this->db->query($query, $params);
+
+      
+        return $result;
+    }
+}

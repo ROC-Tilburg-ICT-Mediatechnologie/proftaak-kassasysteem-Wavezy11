@@ -19,28 +19,21 @@ class ProductModel extends Model
     {
         return $this->getAll();
     }
-   
 
     public function getProduct($idProduct): array
     {
-        $product = ProductModel::getOne(["idproduct" => $idProduct]);
+        $product = $this->getOne(["idproduct" => $idProduct]);
         return [
             'idproduct' => $idProduct,
             'naam'      => $product->getColumnValue('naam'),
             'prijs'     => (int)$product->getColumnValue('prijs')
         ];
     }
+
     public function getAllProducts(): array
     {
-        $products = [];
-        foreach ($this->getAll() as $product) {
-            $products[] = [
-                'idproduct' => (int)$product->getColumnValue('idproduct'),
-                'naam'      => $product->getColumnValue('naam'),
-                'prijs'     => (int)$product->getColumnValue('prijs')
-            ];
-        }
-        return $products;
+       
+        $products = $this->getAll();
+        return array_column($products, null, 'idproduct');
     }
-    
 }

@@ -6,7 +6,6 @@ use Acme\system\Database;
 
 class TafelModel extends Model
 {
-
     protected static string $tableName = "tafel";
     protected static string $primaryKey = "idtafel";
 
@@ -15,28 +14,14 @@ class TafelModel extends Model
         parent::__construct(Database::getInstance($env));
     }
 
-    //getAllTafel() functie aangemaakt
+
+    /**
+     * Get all tafels
+     *
+     * @return array
+     */
     public function getAllTafels(): array
     {
-        $tafels = self::getAll();
-        $result = [];
- 
-        foreach ($tafels as $tafel) {
-            $result[] = [
-                'idtafel' => (int)$tafel->getColumnValue('idtafel'),
-                'omschrijving' => $tafel->getColumnValue('omschrijving')
-            ];
-        }
- 
-        return $result;
-    }
-
-    public function getTafel($idTafel): array
-    {
-        $tafel = self::getOne(['idtafel' => $idTafel]);
-        return [
-            (int)$tafel->getColumnValue('idtafel'),
-            $tafel->getColumnValue('omschrijving')
-        ];
+        return $this->getAll();
     }
 }
